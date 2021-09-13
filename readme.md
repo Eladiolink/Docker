@@ -64,7 +64,7 @@ CMD \["/bin/bash"\]
 docker run <name_image>
 ```
 
-O **docker run** verifica se tem a imagem local, caso não tenha ele baixa direto do Docker Hub ou futuramente a Docker Store. A imagem é as instruções para a criação de um container tipo uma receita de bolo para os nosso containers. E após baixada é iniciado o container. Com a flag *-d* cria o container e deixa ele em execução em backgorund. A flag *--name <nome>* é para vc informar ao docker um nome especifico para o container. A flat *-e* seta uma váriavel de ambiente ao container.
+O **docker run** verifica se tem a imagem local, caso não tenha ele baixa direto do Docker Hub ou futuramente a Docker Store. A imagem é as instruções para a criação de um container tipo uma receita de bolo para os nosso containers. E após baixada é iniciado o container. Com a flag *-d* cria o container e deixa ele em execução em backgorund. A flag *--name <nome>* é para vc informar ao docker um nome especifico para o container. A flat *-e* seta uma váriavel de ambiente ao container. A flag *-w "/var/www"* informa ao docker qual pasta ele irá executar os comandos.
 
 ```bash
 docker ps
