@@ -113,3 +113,49 @@ docker run -v [local]:[caminho_do_container] <nome_da_imagem>
 ```
 
 A flag *-v local:container* atrela  uma pasta local a uma determinada pasta em um container. E esse volume fica salvo no Docker Host ou seja no mesmo computador em que o Docker Engine estiver rodando.
+
+## Criando Imagens
+
+Cria um arquivo com *Dockerfile ou .dockerfile*.
+
+```bash
+FROM node:latest
+ENV NODE_ENV=production
+EN PORT=3000
+MAINTAINER Eládio Leal
+COPY ./Node /var/www
+WORKDIR /var/www
+RUN ["npm", "install"]
+ENTRYPOINT npm start
+EXPOSE $PORT
+```
+
+O **FROM** serve para informar qual imagem será usada como base nessa que questamos criando. O **ENV** serve para criar váriaveis de ambiente na imagem do container. O **MAINTAINER** Servirá para informar quem foi o criador da imagem. Com o **COPY** informaremos a pasta dos arquivos me desejamos copiar para a nossa imagem e onde ela ficará respectivamente. No **WORKDIR**  é usado para definir o diretório de trabalho de um contêiner do Docker a qualquer momento, ou seja onde rodará os comandos. Com o **RUN** é o comando que irá ser executado assim quando o container for criado. O  **ENTRYPOINT** servirá como um executor de comando por parâmetro. E o **EXPOSE** é para informar qual a porta que a aplicação usará no container (internamente).
+
+```bash
+docker build -f <arquivo> -t <nome_da_imagem> <onde_o_arquivo_está>
+```
+
+Para biuldar o dockerfile criado, basca execultar o comando acima com o _nome do arquivo_ (normalmente é Dockerfile ou tem a extensão .dockfile), _nome que a imagem terá_ e _onde o arquivo está_. Com isso será possível criar uma imagem docker localmente.
+
+## Comunicação entre containers
+
+Default network
+
+```bash
+docker network create --driver bridge minha-rede
+```
+
+```bash
+ docker run -it --name ubuntu --network minha-rede ubuntu
+```
+
+## Docker Compose
+
+### Execução
+
+```bash
+docker-compose build
+```
+
+Dá o comando para fazer bild do arquivo Yarm
