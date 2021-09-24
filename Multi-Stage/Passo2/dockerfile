@@ -1,0 +1,12 @@
+FROM node:lts as packages
+WORKDIR /packages
+COPY ./package.json /packages/
+RUN npm install
+
+
+FROM ubuntu
+RUN apt-get update && apt-get install nodejs -y
+WORKDIR /home/app
+COPY . .
+COPY --from=packages /packages/node_modules /home/app/node_modules
+ENTRYPOINT [ "node" , "server.js" ]
