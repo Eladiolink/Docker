@@ -42,6 +42,13 @@ Agora é importante falarmos para o docker compose qual deve ser o nome do nosso
 ```
 Com essa vreve instrução o nome do nosso container será apenas exemplo-service.
 
+#### volumes
+É usado para informar ao container o volume que ele usará.
+```yml
+volumes:
+      -  volume-of-test:/var/lib/backup/data
+```
+Nesse exemplo informamos que o nosso container usará o volume *volume-of-test* e será a pasta */var/lib/backup/data* dentro do nosso container.
 #### ports
 Serve para informar ao docker composer quais portas serão expostas na hora da sua criação, analogo a flag *-p* na criação de uma container.
 ```yml
@@ -77,6 +84,8 @@ services:
       dockerfile: imagem.dockerfile
     image: exemplo/service
     container_name: exemplo-service
+    volumes:
+      -  volume-of-test:/var/lib/backup/data
     ports:
         - "80:80"
     networks:
@@ -88,3 +97,56 @@ services:
 ```
 
 Dentro do escopo de **services** pode ser definidas vários servições, porém tudo depende da necessidade ok? ;)
+
+### Networks
+
+É usado caso ache necessario a criação de uma rede customizada para a utilização em seus serviços, pode ser feito da seguinte forma:
+```yml
+networks:
+  production-network:
+    driver: bridge
+```
+Nesse exemplo é criado uma rede com o nome *production-network*, onde definimos que o driver será o *bridge*.
+
+### Volumes
+Basta de inicio cria o nome do volume e o driver no qual ele usará, por exemplo usaremos o driver local, mas poderia ser outros:
+```yml
+volumes:
+    volume-of-test:
+        drive: local
+```
+Nesse exemplo é criado um volume com o nome *volume-of-test* e o drive no qual ele utilizará será o *local*
+
+### Finalização 
+Por fim teremos um arquivo docker-composer.yml que terá a seguinte estrutura base:
+```yml
+version: 3.4
+
+services:
+   service-exemple:
+    build:
+      context: ./dir
+      dockerfile: imagem.dockerfile
+    image: exemplo/service
+    container_name: exemplo-service
+    volumes:
+      -  volume-of-test:/var/lib/backup/data
+    ports:
+        - "80:80"
+    networks:
+        - production-network
+    depends_on:
+        - service1
+        - service2
+        - service3
+
+networks:
+  production-network:
+    driver: bridge
+
+volumes:
+    volume-of-test:
+        drive: local
+```
+
+Esse readme é apenas uma explicação básica, recomendo o aprofundamento na dockumentação do [Docker](https://docs.docker.com/compose/compose-file/compose-file-v3/)
